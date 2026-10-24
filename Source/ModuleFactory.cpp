@@ -53,6 +53,7 @@
 #include "Neighborhooder.h"
 #include "Polyrhythms.h"
 #include "Looper.h"
+#include "LoopGrid.h"
 #include "Rewriter.h"
 #include "Metronome.h"
 #include "NoteRouter.h"
@@ -315,6 +316,7 @@ ModuleFactory::ModuleFactory()
    REGISTER(Neighborhooder, notewrap, kModuleCategory_Note);
    REGISTER(Polyrhythms, polyrhythms, kModuleCategory_Instrument);
    REGISTER(Looper, looper, kModuleCategory_Audio);
+   REGISTER(LoopGrid, loopgrid, kModuleCategory_Other);
    REGISTER(Rewriter, looperrewriter, kModuleCategory_Audio);
    REGISTER(Metronome, metronome, kModuleCategory_Synth);
    REGISTER(NoteRouter, noterouter, kModuleCategory_Note);

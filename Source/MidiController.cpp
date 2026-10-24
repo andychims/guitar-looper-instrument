@@ -24,6 +24,7 @@
 //
 
 #include "MidiController.h"
+#include "LoopGrid.h"
 #include "IUIControl.h"
 #include "SynthGlobals.h"
 #include "ofxJSONElement.h"
@@ -510,6 +511,11 @@ void MidiController::MidiReceived(MidiMessageType messageType, int control, floa
 {
    assert(mEnabled);
 
+   // Learn on the MIDI callback before this controller iterates its connections.
+   // LoopGrid::Poll only reports the result on the UI thread.
+   if (LoopGrid::CaptureMidiLearn(this, messageType, control, channel, value))
+      return;
+
    mLastActivityBound = false;
    //if (value > 0)
    mLastActivityTime = gTime;
@@ -783,6 +789,34 @@ void MidiController::RemoveConnection(int control, MidiMessageType messageType, 
       if (!remotelyControlled)
          removed->RemoveRemoteController();
    }
+}
+
+bool MidiController::RemoveConnectionForUIControl(MidiMessageType messageType, int control, int channel, int page, IUIControl* target)
+{
+   if (!target)
+      return false;
+   for (auto it = mConnections.begin(); it != mConnections.end(); ++it)
+   {
+      UIControlConnection* connection = *it;
+      if (connection->mMessageType != messageType || connection->mControl != control ||
+          connection->mChannel != channel || connection->mPage != page || connection->mPageless ||
+          (connection->mUIControl != target && connection->mShouldRetryForUIControlAt != target->Path()))
+         continue;
+      IUIControl* removed = connection->mUIControl;
+      delete connection;
+      mConnections.erase(it);
+      if (removed)
+      {
+         bool stillControlled = false;
+         for (auto* remaining : mConnections)
+            if (remaining->mUIControl == removed)
+               stillControlled = true;
+         if (!stillControlled)
+            removed->RemoveRemoteController();
+      }
+      return true;
+   }
+   return false;
 }
 
 void MidiController::Poll()

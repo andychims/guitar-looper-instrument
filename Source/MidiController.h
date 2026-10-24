@@ -292,6 +292,7 @@ public:
    std::string GetDeviceIn() const { return mDeviceIn; }
    std::string GetDeviceOut() const { return mDeviceOut; }
    UIControlConnection* GetConnectionForControl(MidiMessageType messageType, int control);
+   bool RemoveConnectionForUIControl(MidiMessageType messageType, int control, int channel, int page, IUIControl* target);
    UIControlConnection* GetConnectionForCableSource(const PatchCableSource* source);
    void ResyncControllerState();
 

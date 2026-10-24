@@ -334,7 +334,7 @@ void ScriptModule::DrawModule()
 
    for (size_t i = 0; i < mUIControlModifications.size(); ++i)
    {
-      if (mUIControlModifications[i].time == -1)
+      if (mUIControlModifications[i].time == -1 || mUIControlModifications[i].lineNum < 0)
          continue;
 
       float fadeMs = 500;
@@ -417,7 +417,7 @@ void ScriptModule::DrawModuleUnclipped()
 
    for (size_t i = 0; i < mUIControlModifications.size(); ++i)
    {
-      if (mUIControlModifications[i].time == -1)
+      if (mUIControlModifications[i].time == -1 || mUIControlModifications[i].lineNum < 0)
          continue;
 
       float fadeMs = 200;
@@ -1521,6 +1521,9 @@ void ScriptModule::Reset()
 
    for (size_t i = 0; i < mPrintDisplay.size(); ++i)
       mPrintDisplay[i].time = -1;
+
+   for (size_t i = 0; i < mUIControlModifications.size(); ++i)
+      mUIControlModifications[i].time = -1;
 }
 
 void ScriptModule::Resize(float w, float h)

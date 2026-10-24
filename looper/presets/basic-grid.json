@@ -1,0 +1,196 @@
+{
+  "modules": [
+    {
+      "name": "transport",
+      "type": "transport",
+      "position": [
+        710,
+        110
+      ]
+    },
+    {
+      "name": "scale",
+      "type": "scale",
+      "position": [
+        710,
+        260
+      ]
+    },
+    {
+      "name": "grid",
+      "type": "loopgrid",
+      "position": [
+        20,
+        110
+      ],
+      "rhythm_a": "rhythm A",
+      "rhythm_b": "rhythm B",
+      "lead_a": "lead A",
+      "lead_b": "lead B",
+      "rhythm_recorder": "rhythm recorder",
+      "lead_recorder": "lead recorder",
+      "rhythm_amp": "rhythm gain",
+      "lead_amp": "lead gain",
+      "rhythm_a_occupied": false,
+      "rhythm_b_occupied": false,
+      "lead_a_occupied": false,
+      "lead_b_occupied": false,
+      "rhythm_amp_muted": false,
+      "lead_amp_muted": false,
+      "rhythm_fx": "rhythm FX",
+      "lead_fx": "lead FX",
+      "rhythm_monitor": "rhythm monitor",
+      "lead_monitor": "lead monitor"
+    },
+    {
+      "name": "rhythm source",
+      "type": "signalgenerator",
+      "position": [
+        20,
+        700
+      ],
+      "target": "rhythm recorder",
+      "vol": 0.1,
+      "osc": 0
+    },
+    {
+      "name": "lead source",
+      "type": "signalgenerator",
+      "position": [
+        20,
+        1050
+      ],
+      "target": "lead recorder",
+      "vol": 0.1,
+      "osc": 1
+    },
+    {
+      "name": "rhythm recorder",
+      "type": "looperrecorder",
+      "position": [
+        220,
+        700
+      ],
+      "target": "rhythm monitor",
+      "num_loopers": 2
+    },
+    {
+      "name": "lead recorder",
+      "type": "looperrecorder",
+      "position": [
+        220,
+        1050
+      ],
+      "target": "lead monitor",
+      "num_loopers": 2
+    },
+    {
+      "name": "rhythm monitor",
+      "type": "gain",
+      "position": [
+        495,
+        700
+      ],
+      "target": "rhythm gain"
+    },
+    {
+      "name": "lead monitor",
+      "type": "gain",
+      "position": [
+        495,
+        1050
+      ],
+      "target": "lead gain"
+    },
+    {
+      "name": "rhythm A",
+      "type": "looper",
+      "position": [
+        650,
+        700
+      ],
+      "target": "rhythm FX",
+      "decay": 0.0
+    },
+    {
+      "name": "rhythm B",
+      "type": "looper",
+      "position": [
+        850,
+        700
+      ],
+      "target": "rhythm FX",
+      "decay": 0.0
+    },
+    {
+      "name": "lead A",
+      "type": "looper",
+      "position": [
+        650,
+        1050
+      ],
+      "target": "lead FX",
+      "decay": 0.0
+    },
+    {
+      "name": "lead B",
+      "type": "looper",
+      "position": [
+        850,
+        1050
+      ],
+      "target": "lead FX",
+      "decay": 0.0
+    },
+    {
+      "name": "rhythm FX",
+      "type": "effectchain",
+      "position": [
+        1050,
+        700
+      ],
+      "target": "rhythm gain",
+      "effects": []
+    },
+    {
+      "name": "lead FX",
+      "type": "effectchain",
+      "position": [
+        1050,
+        1050
+      ],
+      "target": "lead gain",
+      "effects": []
+    },
+    {
+      "name": "rhythm gain",
+      "type": "gain",
+      "position": [
+        1280,
+        700
+      ],
+      "target": "output"
+    },
+    {
+      "name": "lead gain",
+      "type": "gain",
+      "position": [
+        1280,
+        1050
+      ],
+      "target": "output"
+    },
+    {
+      "name": "output",
+      "type": "output",
+      "position": [
+        1450,
+        875
+      ],
+      "target": "",
+      "channels": 2,
+      "limit": 0.1
+    }
+  ],
+  "zoomlocations": []
+}

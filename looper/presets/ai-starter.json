@@ -1,0 +1,9 @@
+{
+  "modules": [
+    {"name":"transport", "type":"transport", "position":[20,100]},
+    {"name":"scale", "type":"scale", "position":[260,100]},
+    {"name":"output", "type":"output", "position":[650,250], "channels":2, "limit":0.1},
+    {"name":"patch_builder", "type":"script", "position":[20,280], "execute_on_init":false, "hotload_script_files":false}
+  ],
+  "zoomlocations":[]
+}

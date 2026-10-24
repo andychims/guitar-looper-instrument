@@ -187,7 +187,7 @@ void LooperRecorder::Process(double time)
    {
       SyncLoopLengths();
       mCommitToLooper->SetNumBars(mNumBars);
-      mCommitToLooper->Commit(&mRecordBuffer, false, mLatencyFixMs);
+      mCommitToLooper->Commit(&mRecordBuffer, mCommitReplace, mLatencyFixMs);
 
       mRecorderMode = kRecorderMode_Record;
       if (mTemporarilySilenceAfterCommit)
@@ -196,6 +196,7 @@ void LooperRecorder::Process(double time)
          mUnquietInputTime = time + 1000; //no input for 1 second
       }
       mCommitToLooper = nullptr;
+      mCommitReplace = false;
    }
 
    if (mUnquietInputTime != -1 && time >= mUnquietInputTime)
@@ -490,9 +491,10 @@ void LooperRecorder::SyncLoopLengths()
    mBaseTempo = TheTransport->GetTempo();
 }
 
-void LooperRecorder::Commit(Looper* looper)
+void LooperRecorder::Commit(Looper* looper, bool replace)
 {
    mCommitToLooper = looper;
+   mCommitReplace = replace;
 }
 
 void LooperRecorder::RequestMerge(Looper* looper)

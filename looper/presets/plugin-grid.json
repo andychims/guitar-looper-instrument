@@ -1,0 +1,255 @@
+{
+  "modules": [
+    {
+      "name": "transport",
+      "type": "transport",
+      "position": [
+        710,
+        110
+      ]
+    },
+    {
+      "name": "scale",
+      "type": "scale",
+      "position": [
+        710,
+        260
+      ]
+    },
+    {
+      "name": "grid",
+      "type": "loopgrid",
+      "position": [
+        20,
+        110
+      ],
+      "rhythm_a": "rhythm A",
+      "rhythm_b": "rhythm B",
+      "lead_a": "lead A",
+      "lead_b": "lead B",
+      "rhythm_recorder": "rhythm recorder",
+      "lead_recorder": "lead recorder",
+      "rhythm_amp": "rhythm gain",
+      "lead_amp": "lead gain",
+      "rhythm_a_occupied": false,
+      "rhythm_b_occupied": false,
+      "lead_a_occupied": false,
+      "lead_b_occupied": false,
+      "rhythm_amp_muted": false,
+      "lead_amp_muted": false,
+      "rhythm_fx": "rhythm FX",
+      "lead_fx": "lead FX",
+      "rhythm_monitor": "rhythm monitor",
+      "lead_monitor": "lead monitor"
+    },
+    {
+      "name": "rhythm source",
+      "type": "signalgenerator",
+      "position": [
+        20,
+        700
+      ],
+      "target": "rhythm BYOD",
+      "vol": 0.1,
+      "osc": 0
+    },
+    {
+      "name": "lead source",
+      "type": "signalgenerator",
+      "position": [
+        20,
+        1120
+      ],
+      "target": "lead tape",
+      "vol": 0.1,
+      "osc": 1
+    },
+    {
+      "name": "rhythm recorder",
+      "type": "looperrecorder",
+      "position": [
+        500,
+        700
+      ],
+      "target": "rhythm monitor",
+      "num_loopers": 2
+    },
+    {
+      "name": "lead recorder",
+      "type": "looperrecorder",
+      "position": [
+        500,
+        1120
+      ],
+      "target": "lead monitor",
+      "num_loopers": 2
+    },
+    {
+      "name": "rhythm monitor",
+      "type": "gain",
+      "position": [
+        780,
+        700
+      ],
+      "target": "rhythm gain"
+    },
+    {
+      "name": "lead monitor",
+      "type": "gain",
+      "position": [
+        780,
+        1120
+      ],
+      "target": "lead gain"
+    },
+    {
+      "name": "rhythm A",
+      "type": "looper",
+      "position": [
+        1030,
+        700
+      ],
+      "target": "rhythm FX",
+      "decay": 0.0
+    },
+    {
+      "name": "rhythm B",
+      "type": "looper",
+      "position": [
+        1240,
+        700
+      ],
+      "target": "rhythm FX",
+      "decay": 0.0
+    },
+    {
+      "name": "lead A",
+      "type": "looper",
+      "position": [
+        1030,
+        1120
+      ],
+      "target": "lead FX",
+      "decay": 0.0
+    },
+    {
+      "name": "lead B",
+      "type": "looper",
+      "position": [
+        1240,
+        1120
+      ],
+      "target": "lead FX",
+      "decay": 0.0
+    },
+    {
+      "name": "rhythm FX",
+      "type": "effectchain",
+      "position": [
+        1450,
+        700
+      ],
+      "target": "rhythm Surge FX",
+      "effects": []
+    },
+    {
+      "name": "lead FX",
+      "type": "effectchain",
+      "position": [
+        1450,
+        1120
+      ],
+      "target": "lead gain",
+      "effects": []
+    },
+    {
+      "name": "rhythm gain",
+      "type": "gain",
+      "position": [
+        1980,
+        700
+      ],
+      "target": "output"
+    },
+    {
+      "name": "lead gain",
+      "type": "gain",
+      "position": [
+        1980,
+        1120
+      ],
+      "target": "output"
+    },
+    {
+      "name": "output",
+      "type": "output",
+      "position": [
+        2220,
+        910
+      ],
+      "target": "",
+      "channels": 2,
+      "limit": 0.1
+    },
+    {
+      "name": "rhythm BYOD",
+      "type": "plugin",
+      "position": [
+        250,
+        700
+      ],
+      "target": "rhythm recorder",
+      "vst": "@USER_VST3@/BYOD.vst3",
+      "parameterversion": 1,
+      "start_minimized": true
+    },
+    {
+      "name": "lead tape",
+      "type": "plugin",
+      "position": [
+        250,
+        1120
+      ],
+      "target": "lead recorder",
+      "vst": "@USER_VST3@/CHOWTapeModel.vst3",
+      "parameterversion": 1,
+      "start_minimized": true
+    },
+    {
+      "name": "rhythm Surge FX",
+      "type": "plugin",
+      "position": [
+        1710,
+        700
+      ],
+      "target": "rhythm gain",
+      "vst": "@USER_VST3@/Surge XT Effects.vst3",
+      "parameterversion": 1,
+      "start_minimized": true
+    },
+    {
+      "name": "Surge synth",
+      "type": "plugin",
+      "position": [
+        500,
+        1530
+      ],
+      "target": "lead recorder",
+      "vst": "@USER_VST3@/Surge XT.vst3",
+      "parameterversion": 1,
+      "start_minimized": true
+    },
+    {
+      "name": "computer keyboard",
+      "type": "keyboarddisplay",
+      "position": [
+        20,
+        1530
+      ],
+      "target": "Surge synth",
+      "allow_hover_typing_input": true,
+      "latch": false
+    }
+  ],
+  "zoomlocations": []
+}
