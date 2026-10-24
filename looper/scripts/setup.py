@@ -7,7 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'runtime-data'
-PRESETS = {'basic': 'basic-grid.json', 'plugins': 'plugin-grid.json', 'ai': 'ai-starter.json'}
+PRESETS = {'basic': 'basic-grid.json', 'plugins': 'plugin-grid.json',
+           'ai': 'ai-starter.json', 'demo': 'clip-demo.json'}
 VST_MARKER = '@USER_VST3@'
 
 
@@ -45,7 +46,7 @@ def main():
             'buffersize': 256,
             'width': 1440 if mode == 'plugins' else 1200,
             'height': 900 if mode == 'plugins' else 760,
-            'zoom': 0.6 if mode == 'plugins' else (1.0 if mode == 'ai' else 0.75),
+            'zoom': 1.0,
             'ui_scale': 1.0,
             'show_welcome_screen': False,
             'show_tooltips_on_load': False,

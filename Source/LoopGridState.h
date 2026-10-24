@@ -5,7 +5,7 @@
 namespace loopgrid
 {
 enum State { Empty, Armed, Recording, Queued, Playing, Stopped };
-enum Action { NoAction, StartCapture, FinishCapture, StartPlay, StopPlay };
+enum Action { NoAction, StartCapture, FinishCapture, StartPlay, StopPlay, AbortCapture };
 
 struct Transition
 {
@@ -18,6 +18,7 @@ struct Transition
    bool launch{ false };
    bool stop{ false };
    bool displaceSibling{ false };
+   bool releaseHold{ false };
 };
 
 inline Transition Click(State state, Action pending, bool occupied, bool siblingCapturing,
@@ -58,7 +59,22 @@ inline Transition OnBar(State state, Action pending, int measure, int bars, bool
    }
    if (pending == StopPlay && state == Queued)
       return { Stopped, NoAction, measure, false, false, false, false, true };
+   if (pending == AbortCapture && state == Queued)
+      return { Empty, NoAction, measure, false, false, false, false, true, false, true };
    return { state, NoAction, measure };
+}
+
+inline Transition StopAll(State state, Action pending, bool occupied, int nextBar)
+{
+   if (state == Armed)
+      return { Empty, NoAction, nextBar, false, false, false, false, false, false, true };
+   if (state == Recording)
+      return { Queued, AbortCapture, nextBar };
+   if (state == Playing || (state == Queued && pending == StopPlay))
+      return { Queued, StopPlay, nextBar };
+   if (state == Queued && pending == StartPlay)
+      return { occupied ? Stopped : Empty, NoAction, nextBar };
+   return { state, pending, nextBar };
 }
 
 inline bool IsCapturing(State state) { return state == Armed || state == Recording; }

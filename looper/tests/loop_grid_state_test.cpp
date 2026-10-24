@@ -71,5 +71,22 @@ int main()
    assert(EffectiveTrackGain(.8f, false, 0, 1) == 0);
    assert(EffectiveTrackGain(.7f, true, 0, 0) == 0);
    assert(EffectiveTrackGain(.8f, false, -1, 1) == .8f);
+
+   // Stop All preserves the audio until the boundary, cancels an arm, and
+   // aborts an in-progress capture without marking the slot occupied.
+   r = StopAll(Playing, NoAction, true, 21);
+   assert(r.state == Queued && r.action == StopPlay && r.target == 21);
+   r = OnBar(r.state, r.action, 21, 4, false);
+   assert(r.state == Stopped && r.stop);
+   r = StopAll(Armed, StartCapture, false, 21);
+   assert(r.state == Empty && r.action == NoAction && r.releaseHold);
+   r = StopAll(Recording, FinishCapture, false, 21);
+   assert(r.state == Queued && r.action == AbortCapture && r.target == 21);
+   r = OnBar(r.state, r.action, 21, 4, false);
+   assert(r.state == Empty && r.releaseHold && r.stop);
+   r = StopAll(Queued, StartPlay, true, 21);
+   assert(r.state == Stopped && r.action == NoAction);
+   assert(EffectiveTrackGain(.7f, true, -1, 0) == 0);
+   assert(EffectiveTrackGain(.8f, true, -1, 1) == 0);
    return 0;
 }

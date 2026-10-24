@@ -327,6 +327,8 @@ target_sources(BespokeSynth PRIVATE
     LoopGrid.cpp
     LoopGrid.h
     LoopGridState.h
+    PerformanceBindings.cpp
+    PerformanceBindings.h
     LooperGranulator.cpp
     LooperGranulator.h
     LooperRecorder.cpp

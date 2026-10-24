@@ -4,7 +4,7 @@
       "name": "transport",
       "type": "transport",
       "position": [
-        20,
+        710,
         110
       ]
     },
@@ -12,15 +12,15 @@
       "name": "scale",
       "type": "scale",
       "position": [
-        250,
-        110
+        710,
+        260
       ]
     },
     {
       "name": "grid",
       "type": "loopgrid",
       "position": [
-        500,
+        20,
         110
       ],
       "rhythm_a": "rhythm A",
@@ -36,14 +36,18 @@
       "lead_a_occupied": false,
       "lead_b_occupied": false,
       "rhythm_amp_muted": false,
-      "lead_amp_muted": false
+      "lead_amp_muted": false,
+      "rhythm_fx": "rhythm FX",
+      "lead_fx": "lead FX",
+      "rhythm_monitor": "rhythm monitor",
+      "lead_monitor": "lead monitor"
     },
     {
       "name": "rhythm source",
       "type": "signalgenerator",
       "position": [
         20,
-        380
+        700
       ],
       "target": "rhythm BYOD",
       "vol": 0.1,
@@ -54,7 +58,7 @@
       "type": "signalgenerator",
       "position": [
         20,
-        800
+        1120
       ],
       "target": "lead tape",
       "vol": 0.1,
@@ -65,7 +69,7 @@
       "type": "looperrecorder",
       "position": [
         500,
-        380
+        700
       ],
       "target": "rhythm monitor",
       "num_loopers": 2
@@ -75,7 +79,7 @@
       "type": "looperrecorder",
       "position": [
         500,
-        800
+        1120
       ],
       "target": "lead monitor",
       "num_loopers": 2
@@ -85,7 +89,7 @@
       "type": "gain",
       "position": [
         780,
-        380
+        700
       ],
       "target": "rhythm gain"
     },
@@ -94,7 +98,7 @@
       "type": "gain",
       "position": [
         780,
-        800
+        1120
       ],
       "target": "lead gain"
     },
@@ -103,7 +107,7 @@
       "type": "looper",
       "position": [
         1030,
-        380
+        700
       ],
       "target": "rhythm FX",
       "decay": 0.0
@@ -113,7 +117,7 @@
       "type": "looper",
       "position": [
         1240,
-        380
+        700
       ],
       "target": "rhythm FX",
       "decay": 0.0
@@ -123,7 +127,7 @@
       "type": "looper",
       "position": [
         1030,
-        800
+        1120
       ],
       "target": "lead FX",
       "decay": 0.0
@@ -133,7 +137,7 @@
       "type": "looper",
       "position": [
         1240,
-        800
+        1120
       ],
       "target": "lead FX",
       "decay": 0.0
@@ -143,7 +147,7 @@
       "type": "effectchain",
       "position": [
         1450,
-        380
+        700
       ],
       "target": "rhythm Surge FX",
       "effects": []
@@ -153,7 +157,7 @@
       "type": "effectchain",
       "position": [
         1450,
-        800
+        1120
       ],
       "target": "lead gain",
       "effects": []
@@ -163,7 +167,7 @@
       "type": "gain",
       "position": [
         1980,
-        380
+        700
       ],
       "target": "output"
     },
@@ -172,7 +176,7 @@
       "type": "gain",
       "position": [
         1980,
-        800
+        1120
       ],
       "target": "output"
     },
@@ -181,7 +185,7 @@
       "type": "output",
       "position": [
         2220,
-        590
+        910
       ],
       "target": "",
       "channels": 2,
@@ -192,7 +196,7 @@
       "type": "plugin",
       "position": [
         250,
-        380
+        700
       ],
       "target": "rhythm recorder",
       "vst": "@USER_VST3@/BYOD.vst3",
@@ -204,7 +208,7 @@
       "type": "plugin",
       "position": [
         250,
-        800
+        1120
       ],
       "target": "lead recorder",
       "vst": "@USER_VST3@/CHOWTapeModel.vst3",
@@ -216,7 +220,7 @@
       "type": "plugin",
       "position": [
         1710,
-        380
+        700
       ],
       "target": "rhythm gain",
       "vst": "@USER_VST3@/Surge XT Effects.vst3",
@@ -228,7 +232,7 @@
       "type": "plugin",
       "position": [
         500,
-        1210
+        1530
       ],
       "target": "lead recorder",
       "vst": "@USER_VST3@/Surge XT.vst3",
@@ -240,7 +244,7 @@
       "type": "keyboarddisplay",
       "position": [
         20,
-        1210
+        1530
       ],
       "target": "Surge synth",
       "allow_hover_typing_input": true,

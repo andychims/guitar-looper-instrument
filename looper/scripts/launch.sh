@@ -4,8 +4,8 @@ looper_root="$(cd "$(dirname "$0")/.." && pwd)"
 repo_root="$(cd "$looper_root/.." && pwd)"
 mode="${1:-basic}"
 case "$mode" in
-  basic|plugins|ai) ;;
-  *) echo "Usage: $0 [basic|plugins|ai]" >&2; exit 2 ;;
+  basic|plugins|ai|demo) ;;
+  *) echo "Usage: $0 [basic|plugins|ai|demo]" >&2; exit 2 ;;
 esac
 python3 "$looper_root/scripts/setup.py"
 if [[ "$mode" == plugins ]]; then

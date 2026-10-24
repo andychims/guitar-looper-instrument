@@ -10,3 +10,7 @@ echo "LoopGrid state test passed"
 c++ -std=c++17 -Wall -Wextra -Werror "$looper_root/tests/looper_commit_math_test.cpp" -o "$test_binary"
 "$test_binary"
 echo "Looper commit boundary test passed"
+c++ -std=c++17 -Wall -Wextra -Werror "$looper_root/tests/test_performance_bindings.cpp" \
+  "$looper_root/../Source/PerformanceBindings.cpp" -o "$test_binary"
+"$test_binary"
+echo "Performance binding test passed"

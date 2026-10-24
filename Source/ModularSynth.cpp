@@ -11,6 +11,7 @@
 #include "TitleBar.h"
 #include "LFOController.h"
 #include "MidiController.h"
+#include "LoopGrid.h"
 #include "ChaosEngine.h"
 #include "ModuleSaveDataPanel.h"
 #include "Profiler.h"
@@ -1156,6 +1157,18 @@ void ModularSynth::KeyPressed(int key, bool isRepeat)
    if (!isRepeat)
       mHideTooltipsUntilMouseMove = true;
 
+   // Performance bindings are opt-in per LoopGrid and only run when no text
+   // editor or modal owns the keyboard. Route before hover text-input handling.
+   if (IKeyboardFocusListener::GetActiveKeyboardFocus() == nullptr && GetTopModalFocusItem() == nullptr)
+   {
+      std::vector<IDrawableModule*> modules;
+      GetAllModules(modules);
+      for (auto* item : modules)
+         if (auto* grid = dynamic_cast<LoopGrid*>(item))
+            if (!grid->IsDeleted() && grid->HandlePerformanceKey(key, GetKeyModifiers(), isRepeat))
+               return;
+   }
+
    if (gHoveredUIControl &&
        IKeyboardFocusListener::GetActiveKeyboardFocus() == nullptr &&
        !isRepeat)
@@ -1916,7 +1929,22 @@ void ModularSynth::MousePressed(int intX, int intY, int button, const juce::Mous
    if (gHoveredUIControl != nullptr)
       hoveredUIControlModuleParent = gHoveredUIControl->GetModuleParent();
 
+   // Hover is updated by rendering and can still refer to the previous control
+   // when a pointer move and click arrive between frames. Only use the direct
+   // hover route near its current rect; otherwise hit-test the new location.
+   bool clickWithinHoveredControl = false;
+   if (hoveredUIControlModuleParent != nullptr && !hoveredUIControlModuleParent->IsDeleted())
+   {
+      ofVec2f controlClickPos(GetMouseX(hoveredUIControlModuleParent->GetOwningContainer()),
+                             GetMouseY(hoveredUIControlModuleParent->GetOwningContainer()));
+      controlClickPos -= gHoveredUIControl->GetParent()->GetPosition();
+      const ofRectangle rect = gHoveredUIControl->GetRect(K(local)).grow(2);
+      clickWithinHoveredControl = controlClickPos.x >= rect.getMinX() && controlClickPos.x <= rect.getMaxX() &&
+                                  controlClickPos.y >= rect.getMinY() && controlClickPos.y <= rect.getMaxY();
+   }
+
    if (hoveredUIControlModuleParent != nullptr && !hoveredUIControlModuleParent->IsDeleted() && !hoveredUIControlModuleParent->IsHoveringOverResizeHandle() &&
+       clickWithinHoveredControl &&
        !IUIControl::WasLastHoverSetManually() &&
        mGroupSelectedModules.empty() &&
        mQuickSpawn->IsShowing() == false &&
@@ -3584,7 +3612,15 @@ void ModularSynth::OnConsoleInput(std::string command /* = "" */)
       }
       else if (tokens[0] == "load")
       {
-         LoadLayout(ofToDataPath(tokens[1]));
+         if (tokens.size() < 2)
+            LogEvent("usage: load <layout file>", kLogEventType_Error);
+         else
+         {
+            std::string path = tokens[1];
+            for (size_t i = 2; i < tokens.size(); ++i)
+               path += " " + tokens[i];
+            LoadLayoutFromFile(ofToDataPath(path), false);
+         }
       }
       else if (tokens[0] == "save")
       {

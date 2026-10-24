@@ -4,7 +4,7 @@
       "name": "transport",
       "type": "transport",
       "position": [
-        20,
+        710,
         110
       ]
     },
@@ -12,16 +12,16 @@
       "name": "scale",
       "type": "scale",
       "position": [
-        250,
-        110
+        710,
+        260
       ]
     },
     {
       "name": "grid",
       "type": "loopgrid",
       "position": [
-        500,
-        80
+        20,
+        110
       ],
       "rhythm_a": "rhythm A",
       "rhythm_b": "rhythm B",
@@ -36,14 +36,18 @@
       "lead_a_occupied": false,
       "lead_b_occupied": false,
       "rhythm_amp_muted": false,
-      "lead_amp_muted": false
+      "lead_amp_muted": false,
+      "rhythm_fx": "rhythm FX",
+      "lead_fx": "lead FX",
+      "rhythm_monitor": "rhythm monitor",
+      "lead_monitor": "lead monitor"
     },
     {
       "name": "rhythm source",
       "type": "signalgenerator",
       "position": [
         20,
-        260
+        700
       ],
       "target": "rhythm recorder",
       "vol": 0.1,
@@ -54,7 +58,7 @@
       "type": "signalgenerator",
       "position": [
         20,
-        610
+        1050
       ],
       "target": "lead recorder",
       "vol": 0.1,
@@ -65,7 +69,7 @@
       "type": "looperrecorder",
       "position": [
         220,
-        260
+        700
       ],
       "target": "rhythm monitor",
       "num_loopers": 2
@@ -75,7 +79,7 @@
       "type": "looperrecorder",
       "position": [
         220,
-        610
+        1050
       ],
       "target": "lead monitor",
       "num_loopers": 2
@@ -85,7 +89,7 @@
       "type": "gain",
       "position": [
         495,
-        260
+        700
       ],
       "target": "rhythm gain"
     },
@@ -94,7 +98,7 @@
       "type": "gain",
       "position": [
         495,
-        610
+        1050
       ],
       "target": "lead gain"
     },
@@ -103,7 +107,7 @@
       "type": "looper",
       "position": [
         650,
-        260
+        700
       ],
       "target": "rhythm FX",
       "decay": 0.0
@@ -113,7 +117,7 @@
       "type": "looper",
       "position": [
         850,
-        260
+        700
       ],
       "target": "rhythm FX",
       "decay": 0.0
@@ -123,7 +127,7 @@
       "type": "looper",
       "position": [
         650,
-        610
+        1050
       ],
       "target": "lead FX",
       "decay": 0.0
@@ -133,7 +137,7 @@
       "type": "looper",
       "position": [
         850,
-        610
+        1050
       ],
       "target": "lead FX",
       "decay": 0.0
@@ -143,7 +147,7 @@
       "type": "effectchain",
       "position": [
         1050,
-        260
+        700
       ],
       "target": "rhythm gain",
       "effects": []
@@ -153,7 +157,7 @@
       "type": "effectchain",
       "position": [
         1050,
-        610
+        1050
       ],
       "target": "lead gain",
       "effects": []
@@ -163,7 +167,7 @@
       "type": "gain",
       "position": [
         1280,
-        260
+        700
       ],
       "target": "output"
     },
@@ -172,7 +176,7 @@
       "type": "gain",
       "position": [
         1280,
-        610
+        1050
       ],
       "target": "output"
     },
@@ -181,7 +185,7 @@
       "type": "output",
       "position": [
         1450,
-        435
+        875
       ],
       "target": "",
       "channels": 2,
