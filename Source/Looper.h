@@ -39,6 +39,7 @@
 #include "INoteReceiver.h"
 #include "SwitchAndRamp.h"
 #include "IInputRecordable.h"
+#include <atomic>
 
 class LooperRecorder;
 class Rewriter;
@@ -115,6 +116,9 @@ public:
    void Rewrite();
    bool GetMute() const { return mMute; }
    void SetMute(double time, bool mute);
+   // Keep a newly captured loop silent until an external controller launches it.
+   void SetHoldMuteAfterCommit(bool hold) { mHoldMuteAfterCommit = hold; }
+   bool IsCommitting() const { return mDoCommit || mCommitSamplesProgress >= 0; }
 
    bool CheckNeedsDraw() override { return true; }
 
@@ -175,11 +179,11 @@ private:
    ClickButton* mMergeButton{ nullptr };
    ClickButton* mSwapButton{ nullptr };
    ClickButton* mCopyButton{ nullptr };
-   bool mDoCommit{ false }; //if this is set, a commit happens next audio frame
+   std::atomic<bool> mDoCommit{ false }; //if this is set, a commit happens next audio frame
    RollingBuffer* mCommitBuffer{ nullptr };
    int mCommitBufferStartSample{ -1 };
    int mCommitTargetBufferOffset{ -1 };
-   int mCommitSamplesProgress{ -1 };
+   std::atomic<int> mCommitSamplesProgress{ -1 };
    int mCommitLength{ -1 };
    ClickButton* mVolumeBakeButton{ nullptr };
    bool mWantBakeVolume{ false };
@@ -190,6 +194,7 @@ private:
    bool mWantShiftDownbeat{ false };
    bool mWantShiftOffset{ false };
    bool mMute{ false };
+   std::atomic<bool> mHoldMuteAfterCommit{ false };
    Checkbox* mMuteCheckbox{ nullptr };
    bool mPassthrough{ true };
    Checkbox* mPassthroughCheckbox{ nullptr };

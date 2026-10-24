@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.22)
+project(plugin_probe VERSION 0.1.0 LANGUAGES C CXX)
+set(CMAKE_CXX_STANDARD 17)
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../../../libs/JUCE" JUCE)
+juce_add_console_app(plugin_probe PRODUCT_NAME "Plugin Probe")
+target_sources(plugin_probe PRIVATE main.cpp)
+target_compile_definitions(plugin_probe PRIVATE JUCE_PLUGINHOST_VST3=1 JUCE_PLUGINHOST_AU=0 JUCE_USE_CURL=0 JUCE_WEB_BROWSER=0 JUCE_VST3_CAN_REPLACE_VST2=0 JUCE_MODAL_LOOPS_PERMITTED=1)
+target_link_libraries(plugin_probe PRIVATE juce::juce_audio_processors juce::juce_audio_formats juce::juce_audio_utils)

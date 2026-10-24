@@ -1,3 +1,9 @@
+# Guitar Looper Instrument fork
+
+This fork adds a 2-track × 2-clip controller using Bespoke's existing loopers. Start with [looper/README.md](looper/README.md) for setup, presets, build instructions, Python patch tools, and [validation limits](looper/VALIDATION.md).
+
+---
+
 [![Build Status](https://dev.azure.com/awwbees/BespokeSynth/_apis/build/status/BespokeSynth.BespokeSynth?branchName=main)](https://dev.azure.com/awwbees/BespokeSynth/_build/latest?definitionId=1&branchName=main)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 

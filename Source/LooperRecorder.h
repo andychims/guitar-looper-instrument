@@ -56,7 +56,7 @@ public:
    void Init() override;
    void SetNumBars(int numBars) { mNumBars = numBars; }
    int GetNumBars() const { return mNumBars; }
-   void Commit(Looper* looper);
+   void Commit(Looper* looper, bool replace = false);
    void RequestMerge(Looper* looper);
    void RequestSwap(Looper* looper);
    void RequestCopy(Looper* looper);
@@ -160,6 +160,7 @@ private:
    FloatSlider* mCommitDelaySlider{ nullptr };
    ChannelBuffer mWriteBuffer;
    Looper* mCommitToLooper{ nullptr };
+   bool mCommitReplace{ false };
    std::array<PatchCableSource*, kMaxLoopers> mLooperPatchCables{ nullptr };
    std::array<ClickButton*, kNumRetroactiveCommitButtons> mRetroactiveCommitButton{ nullptr };
    IntSlider* mNextCommitTargetSlider{ nullptr };

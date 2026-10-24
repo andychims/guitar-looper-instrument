@@ -3670,6 +3670,51 @@ void ModularSynth::OnConsoleInput(std::string command /* = "" */)
       {
          LoadState(ofToDataPath("savestate/quicksave.bsk"));
       }
+      else if (tokens[0] == "control")
+      {
+         // A local developer-console action, using the same typed UI control
+         // callbacks as mouse/MIDI. Spaces in module/control names are kept.
+         if (tokens.size() < 3)
+         {
+            LogEvent("usage: control <module~control path> <finite number>", kLogEventType_Error);
+         }
+         else
+         {
+            std::string path = tokens[1];
+            for (size_t i = 2; i + 1 < tokens.size(); ++i)
+               path += " " + tokens[i];
+            try
+            {
+               size_t consumed = 0;
+               const float value = std::stof(tokens.back(), &consumed);
+               if (consumed != tokens.back().size() || !std::isfinite(value))
+                  throw std::invalid_argument("non-finite or trailing input");
+               auto* control = FindUIControl(path);
+               if (control)
+                  control->SetValue(value, NextBufferTime(false));
+               else
+                  LogEvent("control not found: " + path, kLogEventType_Error);
+            }
+            catch (const std::exception&)
+            {
+               LogEvent("control value must be a finite number", kLogEventType_Error);
+            }
+         }
+      }
+      else if (tokens[0] == "inspect")
+      {
+         // Metadata only: never exports audio buffers or plugin state blobs.
+         ofxJSONElement state;
+         state["schema_version"] = 1;
+         state["tempo"] = TheTransport->GetTempo();
+         state["time_ms"] = gTime;
+         state["modules"] = mModuleContainer.WriteModules();
+         for (auto* module : mModuleContainer.GetModules())
+            for (auto* control : module->GetUIControls())
+               state["controls"][module->Path()][control->Name()] = control->GetValue();
+         state.save(ofToDataPath("inspect.json"), true);
+         LogEvent("wrote local inspect.json", kLogEventType_Verbose);
+      }
       else if (tokens[0] == "getwindowinfo")
       {
          ofLog() << "pos:(" << mMainComponent->getTopLevelComponent()->getPosition().x << ", " << mMainComponent->getTopLevelComponent()->getPosition().y << ") size:(" << ofGetWidth() << ", " << ofGetHeight() << ")";

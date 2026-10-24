@@ -34,6 +34,7 @@
 #include "Profiler.h"
 #include "Rewriter.h"
 #include "LooperGranulator.h"
+#include "LooperCommitMath.h"
 
 float Looper::mBeatwheelPosRight = 0;
 float Looper::mBeatwheelDepthRight = 0;
@@ -397,15 +398,15 @@ void Looper::Process(double time)
 void Looper::DoCommit(double time)
 {
    assert(mCommitBuffer);
+   mCommitSamplesProgress = 0;
    mDoCommit = false;
 
    int commitSamplesBack = int(mCommitMsOffset / gInvSampleRateMs);
    mCommitLength = mLoopLength + LOOPER_COMMIT_FADE_SAMPLES;
    mCommitBufferStartSample = (mCommitBuffer->GetRawBufferOffset(0) - mCommitLength + commitSamplesBack + mCommitBuffer->Size()) % mCommitBuffer->Size();
    mCommitTargetBufferOffset = mLoopPos - LOOPER_COMMIT_FADE_SAMPLES;
-   mCommitSamplesProgress = 0;
 
-   if (mMute)
+   if (mMute && !mHoldMuteAfterCommit)
    {
       mMute = false;
       mMuteRamp.Start(time, mMute ? 0 : 1, time + 1);
@@ -429,7 +430,7 @@ void Looper::ProcessCommit(int numSamplesToProcess)
    if (mCommitSamplesProgress + undoSamplesToCopy > mLoopLength)
       undoSamplesToCopy = mLoopLength - mCommitSamplesProgress;
    if (undoSamplesToCopy > 0)
-      mUndoBuffer->CopyFrom(mBuffer, numSamplesToProcess, mCommitSamplesProgress);
+      mUndoBuffer->CopyFrom(mBuffer, undoSamplesToCopy, mCommitSamplesProgress);
 
    for (int i = 0; i < numSamplesToProcess; ++i)
    {
@@ -441,7 +442,7 @@ void Looper::ProcessCommit(int numSamplesToProcess)
       for (int ch = 0; ch < mBuffer->NumActiveChannels(); ++ch)
       {
          float writeSample = mCommitBuffer->GetRawBuffer()->GetChannel(ch)[(mCommitBufferStartSample + mCommitSamplesProgress) % mCommitBuffer->Size()] * fade;
-         int writeToIndex = (mCommitSamplesProgress + mCommitTargetBufferOffset) % mLoopLength;
+         int writeToIndex = WrapLooperCommitIndex(mCommitSamplesProgress + mCommitTargetBufferOffset, mLoopLength);
          if (mMute || mReplaceOnCommit)
             mBuffer->GetChannel(ch)[writeToIndex] = writeSample;
          else
